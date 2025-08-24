@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wine Quality Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #f9f9f9, #e0f7fa);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            width: 420px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #00796b;
+        }
+
+        form input[type="number"] {
+            width: 90%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .good {
+            color: #2e7d32;
+            background-color: #c8e6c9;
+        }
+
+        .bad {
+            color: #c62828;
+            background-color: #ffcdd2;
+        }
+
+        .error {
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍷 Wine Quality Prediction</h1>
+        <form method="POST" action="/predict">
+            {% for name, placeholder in features_info %}
+                <input type="number" step="any" name="{{name}}" placeholder="{{name | capitalize}} (e.g., {{placeholder}})" required><br>
+            {% endfor %}
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction %}
+            <div class="result {{ 'good' if prediction == 'Good' else 'bad' }}">
+                Prediction: {{ prediction }}
+            </div>
+        {% elif error %}
+            <div class="result error">
+                Error: {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
